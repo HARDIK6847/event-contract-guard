@@ -1,0 +1,23 @@
+=== EVENT CONTRACT GUARD - RUN REPORT ===
+canonical events accepted : 153
+issues raised             : 159
+
+--- summary by processor / issue kind ---
+proc_a  drift_missing_field    x24
+proc_a  drift_new_field        x24
+proc_a  drift_type_change      x24
+proc_a  validation_missing     x24
+proc_a  validation_type        x24
+proc_b  drift_new_field        x36
+proc_c  missing_event          x1
+proc_c  stuck_payment          x2
+
+--- first occurrence of each issue kind ---
+[CRITICAL] proc_a drift_type_change: payment.authorized: 'amount' changed int -> str
+[CRITICAL] proc_a validation_type: payment.authorized: 'amount_minor' expected int, got str ('10.12')
+[CRITICAL] proc_a validation_missing: payment.authorized: 'currency' missing (mapped from 'ccy')
+[CRITICAL] proc_c missing_event: payment PC004: 'payment.captured' never received but later stage 'payment.settled' exists
+[WARN    ] proc_a drift_missing_field: payment.authorized: field 'ccy' no longer sent
+[WARN    ] proc_c stuck_payment: payment PC009: stopped at 'payment.captured', no 'payment.settled' yet
+[INFO    ] proc_a drift_new_field: payment.authorized: new field 'currency' (str)
+[INFO    ] proc_b drift_new_field: payment.authorized: new field 'data.risk_score' (float)
